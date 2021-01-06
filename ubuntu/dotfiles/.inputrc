@@ -1,0 +1,8 @@
+# Make bash case-insensitive for the current user.
+
+# First, include the original '/etc/inputrc',
+# so it won't get overridden.
+$include /etc/inputrc
+
+# Then enable case-insensitive tab completion.
+set completion-ignore-case On

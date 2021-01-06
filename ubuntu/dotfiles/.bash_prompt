@@ -1,0 +1,86 @@
+prompt_git() {
+    local status='';
+    local branch_name='';
+
+    # Check if the current directory is in a Git repository.
+    git rev-parse --is-inside-work-tree &> /dev/null || return;
+
+    # Check for what branch we’re on. Get the short symbolic ref. If HEAD
+    # isn’t a symbolic ref, get a tracking remote branch or tag. Otherwise,
+    # get the short SHA for the latest commit, or give up.
+    branch_name="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
+                   git describe --all --exact-match HEAD 2> /dev/null || \
+                   git rev-parse --short HEAD 2> /dev/null || \
+                   echo '(unknown)')";
+
+    # Early exit for Chromium & Blink repo, as the dirty check takes too long.
+    # github.com/paulirish/dotfiles/blob/dd33151f/.bash_prompt#L110-L123
+    repoUrl="$(git config --get remote.origin.url)";
+    if grep -q 'chromium/src.git' <<< "${repoUrl}"; then
+        status+='*';
+    else
+        # Check for uncommitted changes in the index.
+        if ! $(git diff --quiet --ignore-submodules --cached); then
+            status+='C'; # '+'
+        fi;
+
+        # Check for unstaged changes.
+        if ! $(git diff-files --quiet --ignore-submodules --); then
+            status+='S'; # '!'
+        fi;
+
+        # Check for untracked files.
+        if [ -n "$(git ls-files --others --exclude-standard)" ]; then
+            status+='T'; # '?'
+        fi;
+
+        # Check for stashed files.
+        if $(git rev-parse --verify refs/stash &> /dev/null); then
+            status+='U'; # '$'
+        fi;
+    fi;
+
+    [ -n "${status}" ] && status=" [${status}]";
+
+    echo -e "${1}${branch_name}${2}${status}";
+}
+
+# Search for '256 colors chart' to learn more.
+red=$(tput setaf 203);
+orange=$(tput setaf 208);
+yellow=$(tput setaf 228);
+green=$(tput setaf 2);
+white=$(tput setaf 15);
+blue=$(tput setaf 6);
+reset=$(tput sgr0);
+
+# Highlight the user name when logged in as root.
+if [[ "${USER}" == "root" ]]; then
+    user_style="${red}";
+else
+    user_style="${orange}";
+fi;
+
+# Highlight the hostname when connected via SSH.
+if [[ "${SSH_TTY}" ]]; then
+    host_style="${red}";
+else
+    host_style="${yellow}";
+fi;
+
+# {username}
+PS1="\[${user_style}\]\u";
+# at
+PS1+="\[${white}\] at ";
+# {host}
+PS1+="\[${host_style}\]\h";
+# in
+PS1+="\[${white}\] in ";
+# {working directory}
+PS1+="\[${green}\]\W";
+# {git details}
+PS1+="\$(prompt_git \"\[${white}\] on \[${blue}\]\" \"\[${blue}\]\")";
+# new line
+PS1+="\n";
+# '$' and reset color
+PS1+="\[${white}\]\$ \[${reset}\]";

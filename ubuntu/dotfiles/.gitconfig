@@ -1,0 +1,7 @@
+[user]
+    name = Farid Guseinov
+    email = 22242004+mrguseinov@users.noreply.github.com
+    signingkey = 4B39B52A46F39ED2
+
+[commit]
+    gpgsign = true

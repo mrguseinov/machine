@@ -1,0 +1,12 @@
+
+# ----------------------------------------
+
+# Load dotfiles.
+# (Run 'man test' to understand options like '-r' and '-f'.)
+for file in ~/.{bash_prompt,}; do
+    [ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
+
+# https://stackoverflow.com/a/42265848
+export GPG_TTY=$(tty)
