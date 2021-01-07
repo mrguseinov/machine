@@ -1,6 +1,6 @@
 ## Step 1: Create Virtual Machine
 
-Open [PowerShell as admin](https://www.top-password.com/blog/5-ways-to-run-powershell-as-administrator-in-windows-10/) and run the following code to install and run the `create.ps1` script:
+Open [PowerShell as admin](https://www.top-password.com/blog/5-ways-to-run-powershell-as-administrator-in-windows-10/) and run the following code to download the repository as an archive, unzip it and run the `create.ps1` script:
 
 ```powershell
 $RepositoryUrl = "https://raw.githubusercontent.com/mrguseinov/machine"
@@ -42,20 +42,35 @@ Grub menu             → Install Ubuntu Server.
 Language              → English.
 Keyboard              → Layout: Russian. Variant: Russian.
 Layout toggle         → Alt+Shift.
-Network               → Manual IPv4 (see the output of the 'install.ps1' script).
+Network               → Select an adapter (for example, 'eth0'), then 'Edit IPv4',
+                        then 'IPv4 Method: Manual', then fill out the fields using
+                        the output from the Step 1.
 Proxy                 → Skip.
 Ubuntu archive mirror → Skip.
 Installer update      → Update to the new installer.
-Storage               → Use an entire disk. No LVM group. (Swap is created by Ubuntu.)
+Storage               → Use an entire disk: Yes. Set up this disk as an LVM group: No.
+                        Note: The swap file is created by Ubuntu automatically.
 Profile               → Fill out everything as you like.
 SSH setup             → Install OpenSSH server: Yes. Import SSH identity: No.
+
 Featured server snaps → Skip.
 Security updates      → Skip. We'll install them later in Step 3.
 ```
 
 ## Step 3: Provision Ubuntu Server
 
-Use the `provision.ps1` script in this step. You'll see a similar output:
+Use the `provision.ps1` script in this step. It will check if the machine is available, is running (if not, the script will try to start it), and if it is accessible over the network. Then connect to it, clone the repository, and run the `bootstrap.sh` script.
+
+The `bootstrap.sh` script will do the following:
+
+- update packages list and packages themselves;
+- change the time zone to Moscow;
+- provide an opportunity to change the hostname;
+- install dotfiles (you may want to make some adjustments, especially to `.gitconfig`);
+- install python, pip, virtualenv and black;
+- add some folders and clean up after provisioning.
+
+You'll see a similar output:
 
 ![images/step-3.png](images/step-3.png)
 
