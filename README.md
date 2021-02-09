@@ -1,6 +1,6 @@
 ## Step 1: Create Virtual Machine
 
-Open [PowerShell as admin](https://www.top-password.com/blog/5-ways-to-run-powershell-as-administrator-in-windows-10/) and run the following code to download the repository as an archive, unzip it and run the `create.ps1` script:
+Open [PowerShell as Administrator](https://www.top-password.com/blog/5-ways-to-run-powershell-as-administrator-in-windows-10/) and run the following code to download the repository as an archive, unzip it and run the `create.ps1` script:
 
 ```powershell
 $RepositoryUrl = "https://raw.githubusercontent.com/mrguseinov/machine"
@@ -38,7 +38,7 @@ To run a script, right-click it and select `Run with PowerShell`.
 The installation process [can also be automated](https://askubuntu.com/q/1293460), but I'll put this idea on ice until better times.
 
 ```
-Grub menu             → Install Ubuntu Server.
+Grub menu             → Install Ubuntu Server. (This might take a few minutes.)
 Language              → English.
 Keyboard              → Layout: Russian. Variant: Russian.
 Layout toggle         → Alt+Shift.
@@ -47,15 +47,14 @@ Network               → Select an adapter (for example, 'eth0'), then 'Edit IP
                         the output from the Step 1.
 Proxy                 → Skip.
 Ubuntu archive mirror → Skip.
-Installer update      → Update to the new installer.
 Storage               → Use an entire disk: Yes. Set up this disk as an LVM group: No.
-                        Note: The swap file is created by Ubuntu automatically.
+                        Note: The swap file will be created by Ubuntu automatically.
 Profile               → Fill out everything as you like.
 SSH setup             → Install OpenSSH server: Yes. Import SSH identity: No.
-
 Featured server snaps → Skip.
-Security updates      → Skip. We'll install them later in Step 3.
 ```
+
+After rebooting, you'll be prompted to remove the installation media. Just hit `Enter`.
 
 ## Step 3: Provision Ubuntu Server
 
