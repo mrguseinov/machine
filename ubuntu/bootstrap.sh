@@ -132,16 +132,14 @@ echo " Done."
 
 # ---------------------------------------------------------------------------------- #
 
-if [ -f /var/run/reboot-required ]; then
-    read -p "Do you want to reboot the machine right now? [y/N]: " -e answer
-    if $(is_decision_positive "$answer"); then
-        echo ""
-        echo "The reboot will be initiated in 5 seconds."
-        echo "Thank you for choosing my script. Bye!"
-        echo ""
-        sleep 5
-        sudo reboot
-    fi
+read -p "Do you want to reboot the machine right now? [y/N]: " -e answer
+if $(is_decision_positive "$answer"); then
+    echo ""
+    echo "The reboot will be initiated in 5 seconds."
+    echo "Thank you for choosing my script. Bye!"
+    echo ""
+    sleep 5
+    sudo reboot
 fi
 
 # ---------------------------------------------------------------------------------- #
