@@ -47,7 +47,7 @@ Function Get-AvailableStorage($DriveLetter) {
 
 Function Get-NumberOfItemsInFolder($Path) {
     Test-FolderExists $Path
-    Return (Get-ChildItem $Path | Measure-Object).Count
+    Return (Get-ChildItem $Path -Recurse | Measure-Object).Count
 }
 
 Function Get-NumberOfLogicalProcessors {
@@ -87,9 +87,18 @@ Function New-SSHKeys($Algorithm, $KeyFilesPath) {
     Return ("$KeyFilesPath.pub", $KeyFilesPath)
 }
 
-Function Remove-HostFromSHHConfig($ConfigFilePath, $HostName) {
-    Test-FileExists $ConfigFilePath
+Function Remove-HostFromKnownHosts($HostName, $KnownHostsFilePath) {
     Test-ValueIsString $HostName
+    Test-FileExists $KnownHostsFilePath
+
+    $KnownHostsContent = Get-Content $KnownHostsFilePath
+    $FilteredHosts = $KnownHostsContent.Where( { $_ -NotLike "*$HostName*" } )
+    Set-Content -Path $KnownHostsFilePath -Value $FilteredHosts
+}
+
+Function Remove-HostFromSHHConfig($HostName, $ConfigFilePath) {
+    Test-ValueIsString $HostName
+    Test-FileExists $ConfigFilePath
 
     $ConfigFileContent = [System.Collections.ArrayList](Get-Content $ConfigFilePath)
 
@@ -201,9 +210,24 @@ Function Test-FolderExists($Path) {
     }
 }
 
+Function Test-FolderHasOnlyEmptyFiles($Path) {
+    $AllFiles = Get-ChildItem $Path -Recurse -File
+    Return $AllFiles.Where( { $_.Length -Ne 0 } ).Count -Eq 0
+}
+
 Function Test-HostNotPinging($HostNameOrAddress) {
     $Ping = New-Object System.Net.NetworkInformation.Ping
     Return ($Ping.Send($HostNameOrAddress).Status -Ne "Success")
+}
+
+Function Test-PathsEqual($FirstPath, $SecondPath) {
+    Return (Join-Path $FirstPath "") -Eq (Join-Path $SecondPath "")
+}
+
+Function Test-StringInFile($String, $Path) {
+    Test-ValueIsString $String
+    Test-FileExists $Path
+    Return Select-String $String -Path $Path -Quiet
 }
 
 Function Test-VariablesNotImported {
