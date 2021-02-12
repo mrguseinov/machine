@@ -1,5 +1,7 @@
 $ErrorActionPreference = "Stop"
 
+Add-Type -AssemblyName "System.Windows.Forms"
+
 Import-Module "$PSScriptRoot\modules\common-utils.psm1"
 
 Restart-ScriptAsAdminNoExitOnce $PSCommandPath
@@ -53,6 +55,17 @@ If (Test-HostNotPinging $VMAddress) {
 Write-Host " Yes." @Green
 
 Write-Host
+$SSHUserBackupFile = "$PSScriptRoot\ssh-user.txt"
+$SSHUser = Get-Content $SSHUserBackupFile -ErrorAction "SilentlyContinue"
+If ($Null -Eq $SSHUser) {
+    $SSHUser = [Environment]::UserName
+}
+Show-Console
+[System.Windows.Forms.SendKeys]::SendWait($SSHUser)
+$SSHUser = Read-Host "Enter your Ubuntu username"
+Set-Content -Path $SSHUserBackupFile -Value $SSHUser
+
+Write-Host
 Write-Host "Creating a new SSH key pair using the 'Ed25519' algorithm..." -NoNewline
 $ConfigFolderPath = "$HOME\.ssh"
 $KeyFilesPath = "$ConfigFolderPath\$VmName"
@@ -72,23 +85,21 @@ Catch {
     Return
 }
 
-Write-Host "Sending public key to and getting username and hostname from the VM..."
-$PublicKeyContent = Get-Content $PublicKeyPath
-$Command = "echo $PublicKeyContent >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/*"
-$Command += "&& whoami && cat /etc/hostname"
-$Result = Send-CommandOverSSH $VMAddress $Command
-If (($Null -Eq $Result) -Or ($Result.Length -Ne 2)) {
+Write-Host "Sending the public key to and getting the hostname from the VM..."
+$Command = "echo $(Get-Content $PublicKeyPath) >> ~/.ssh/authorized_keys && "
+$Command += "chmod 600 ~/.ssh/* && cat /etc/hostname"
+$HostName = Send-CommandOverSSH $SSHUser $VMAddress $Command
+If (($Null -Eq $HostName) -Or ($HostName -IsNot [String])) {
     Write-Host "For some reason, SSH command failed." @Warning
     Return
 }
-$UserName, $HostName = $Result[0], $Result[1]
 
 $ConfigFilePath = "$ConfigFolderPath\config"
 Write-Host "Adding configuration to $ConfigFilePath..." -NoNewline
 $HostParams = @{
     Host         = $HostName
     HostName     = $VMAddress
-    User         = $UserName
+    User         = $SSHUser
     IdentityFile = $PrivateKeyPath
 }
 Try {
