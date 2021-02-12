@@ -1,5 +1,7 @@
 $ErrorActionPreference = "Stop"
 
+Add-Type -AssemblyName "System.Windows.Forms"
+
 Import-Module "$PSScriptRoot\modules\common-utils.psm1"
 
 Restart-ScriptAsAdminNoExitOnce $PSCommandPath
@@ -53,8 +55,19 @@ If (Test-HostNotPinging $VMAddress) {
 Write-Host " Yes." @Green
 
 Write-Host
+$SSHUserBackupFile = "$PSScriptRoot\ssh-user.txt"
+$SSHUser = Get-Content $SSHUserBackupFile -ErrorAction "SilentlyContinue"
+If ($Null -Eq $SSHUser) {
+    $SSHUser = [Environment]::UserName
+}
+Show-Console
+[System.Windows.Forms.SendKeys]::SendWait($SSHUser)
+$SSHUser = Read-Host "Enter your Ubuntu username"
+Set-Content -Path $SSHUserBackupFile -Value $SSHUser
+
+Write-Host
 Write-Host "Connecting to the machine over SSH to start provisioning..."
 $Command = "echo && cd ~ && rm -rf machine/ && "
 $Command += "git clone https://github.com/mrguseinov/machine.git && "
 $Command += "bash machine/ubuntu/bootstrap.sh"
-Send-CommandOverSSHWithPTY $VMAddress $Command
+Send-CommandOverSSHWithPTY $SSHUser $VMAddress $Command

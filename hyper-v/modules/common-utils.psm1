@@ -148,14 +148,14 @@ Function Select-MaxRamAmount {
     Return [System.Math]::Min((Get-TotalRamInstalled) / 2, 8GB)
 }
 
-Function Send-CommandOverSSH($HostNameOrAddress, $Command) {
-    @($HostNameOrAddress, $Command) | ForEach-Object { Test-ValueIsString $_ }
-    Return ssh $HostNameOrAddress $Command
+Function Send-CommandOverSSH($User, $HostName, $Command) {
+    @($User, $HostName, $Command) | ForEach-Object { Test-ValueIsString $_ }
+    Return ssh "$User@$HostName" $Command
 }
 
-Function Send-CommandOverSSHWithPTY($HostNameOrAddress, $Command) {
-    @($HostNameOrAddress, $Command) | ForEach-Object { Test-ValueIsString $_ }
-    ssh -t $HostNameOrAddress $Command
+Function Send-CommandOverSSHWithPTY($User, $HostName, $Command) {
+    @($User, $HostName, $Command) | ForEach-Object { Test-ValueIsString $_ }
+    ssh -t "$User@$HostName" $Command
 }
 
 Function Set-ColorVariables {
@@ -178,6 +178,30 @@ Function Set-ParentLocationOrHome($Path) {
     }
     Else {
         Set-Location $ParentPath
+    }
+}
+
+Function Show-Console() {
+    $Signature = @"
+    [DllImport("user32.dll")]
+    public static extern IntPtr GetForegroundWindow();
+
+    [DllImport("user32.dll")]
+    public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+"@
+
+    $TypeParams = @{
+        Name             = "Methods"
+        MemberDefinition = $Signature
+        Namespace        = "Win32"
+        PassThru         = $True
+    }
+    Add-Type @TypeParams | Out-Null
+
+    $hWnd = (Get-Process -Id $PID).MainWindowHandle
+    If ($hWnd -Ne [Win32.Methods]::GetForegroundWindow()) {
+        [Win32.Methods]::ShowWindow($hWnd, 2) | Out-Null # 2 = SW_SHOWMINIMIZED
+        [Win32.Methods]::ShowWindow($hWnd, 9) | Out-Null # 9 = SW_RESTORE
     }
 }
 
