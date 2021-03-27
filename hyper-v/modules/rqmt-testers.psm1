@@ -32,16 +32,12 @@ Function Test-HyperVNotEnabled {
     Return ($HyperV.State -Ne "Enabled")
 }
 
-Function Test-NamesAvailable($VmName, $SwitchName, $NatName) {
-    @($VmName, $SwitchName, $NatName) | ForEach-Object { Test-ValueIsString $_ }
+Function Test-NamesAvailable($TakenNames, $NamesToTest) {
+    Test-ValueIsArray $TakenNames
+    Test-ValueIsArray $NamesToTest
+    @($TakenNames + $NamesToTest) | ForEach-Object { Test-ValueIsString $_ }
 
-    $Objects = @(
-        Get-VM -Name $VmName -ErrorAction "SilentlyContinue"
-        Get-VMSwitch -Name $SwitchName -ErrorAction "SilentlyContinue"
-        Get-NetNat -Name $NatName -ErrorAction "SilentlyContinue"
-    )
-
-    Return ($Objects.Where( { $Null -Ne $_ } ).Count -Eq 0)
+    Return ($TakenNames.Where( { $NamesToTest -Contains $_ } ).Count -Eq 0)
 }
 
 Function Test-OsNotSupported {

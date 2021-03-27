@@ -66,6 +66,10 @@ Function Get-RandomLetters($Count) {
     Return -Join ($RandomAsciiCodes | ForEach-Object { [Char]$_ } )
 }
 
+Function Get-TakenNames {
+    Return @((Get-VM).Name + (Get-VMSwitch).Name + (Get-NetNat).Name)
+}
+
 Function Get-TotalRamInstalled {
     $PhysicalMemory = Get-CimInstance "Cim_PhysicalMemory"
     Return ($PhysicalMemory | Measure-Object -Property "Capacity" -Sum).Sum
