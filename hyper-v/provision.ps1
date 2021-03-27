@@ -2,7 +2,7 @@ $ErrorActionPreference = "Stop"
 
 Add-Type -AssemblyName "System.Windows.Forms"
 
-Import-Module "$PSScriptRoot\modules\common-utils.psm1"
+Import-Module "$PSScriptRoot\modules\common-utils.psm1" -Force
 
 Restart-ScriptAsAdminNoExitOnce $PSCommandPath
 

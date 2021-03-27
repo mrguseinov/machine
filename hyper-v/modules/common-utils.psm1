@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 
-Import-Module "$PSScriptRoot\value-testers.psm1"
+Import-Module "$PSScriptRoot\value-testers.psm1" -Force
 
 Function Add-HostToSSHConfig($ConfigFilePath, $HostParams) {
     Test-ValueIsPath $ConfigFilePath

@@ -2,7 +2,7 @@ Using Namespace System.Net
 
 $ErrorActionPreference = "Stop"
 
-Import-Module "$PSScriptRoot\value-testers.psm1"
+Import-Module "$PSScriptRoot\value-testers.psm1" -Force
 
 Function Add-IntToIPAddress($IPAddress, $Number) {
     Test-ValueIsIPv4 $IPAddress
