@@ -66,11 +66,16 @@ If (Test-StorageNotEnough $DriveLetter) {
 Write-Host " Yes." @Green
 
 Write-Host
-Write-Host "Generating names for VM, vSwitch, and NAT..." -NoNewline
-$Trials = 0
+$Title = "`rGenerating names for folder, VM, vSwitch, and NAT..."
+Write-Host $Title -NoNewline
+$TakenNames = Get-TakenNames
+$TrialNumber = 1
+$TotalTrials = 100
 While ($True) {
-    $Trials++
-    If ($Trials -Gt 100) {
+    Write-Host "$Title $TrialNumber/$TotalTrials" -NoNewline
+
+    If ($TrialNumber -Eq $TotalTrials) {
+        Write-Host $Title -NoNewline
         Write-Host " Failed." @Red
         Write-Host "We've tried many random names. All of them were taken." @Warning
         Return
@@ -82,12 +87,16 @@ While ($True) {
     $SwitchName = "Switch-$RandomLetters"
     $NatName = "NAT-$RandomLetters"
 
-    $NamesAvailable = Test-NamesAvailable $VmName $SwitchName $NatName
+    $NamesToTest = @($VmName, $SwitchName, $NatName)
+    $NamesAvailable = Test-NamesAvailable $TakenNames $NamesToTest
     $FolderAvailable = Test-PathAvailable $VmPath
     If ($NamesAvailable -And $FolderAvailable) {
+        Write-Host $Title -NoNewline
         Write-Host " Done." @Green
         Break
     }
+
+    $TrialNumber++
 }
 
 Write-Host "Looking for an available subnet..." -NoNewline
