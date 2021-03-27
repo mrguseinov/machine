@@ -1,8 +1,8 @@
 $ErrorActionPreference = "Stop"
 
-Import-Module "$PSScriptRoot\common-utils.psm1"
-Import-Module "$PSScriptRoot\network-utils.psm1"
-Import-Module "$PSScriptRoot\value-testers.psm1"
+Import-Module "$PSScriptRoot\common-utils.psm1" -Force
+Import-Module "$PSScriptRoot\network-utils.psm1" -Force
+Import-Module "$PSScriptRoot\value-testers.psm1" -Force
 
 Function Test-HardwareNotCompatible {
     $HyperVInfo = Get-ComputerInfo -Property "*Hyper*"

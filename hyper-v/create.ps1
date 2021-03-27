@@ -1,8 +1,8 @@
 $ErrorActionPreference = "Stop"
 
-Import-Module "$PSScriptRoot\modules\common-utils.psm1"
-Import-Module "$PSScriptRoot\modules\network-utils.psm1"
-Import-Module "$PSScriptRoot\modules\rqmt-testers.psm1"
+Import-Module "$PSScriptRoot\modules\common-utils.psm1" -Force
+Import-Module "$PSScriptRoot\modules\network-utils.psm1" -Force
+Import-Module "$PSScriptRoot\modules\rqmt-testers.psm1" -Force
 
 $BaseDirectory = $HOME
 
