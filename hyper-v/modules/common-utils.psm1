@@ -67,7 +67,8 @@ Function Get-RandomLetters($Count) {
 }
 
 Function Get-TakenNames {
-    Return @((Get-VM).Name + (Get-VMSwitch).Name + (Get-NetNat).Name)
+    # https://stackoverflow.com/a/1391042
+    Return , @((Get-VM).Name + (Get-VMSwitch).Name + (Get-NetNat).Name)
 }
 
 Function Get-TotalRamInstalled {
