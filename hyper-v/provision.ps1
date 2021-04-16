@@ -69,5 +69,5 @@ Write-Host
 Write-Host "Connecting to the machine over SSH to start provisioning..."
 $Command = "echo && cd ~ && rm -rf machine/ && "
 $Command += "git clone https://github.com/mrguseinov/machine.git && "
-$Command += "bash machine/ubuntu/bootstrap.sh"
+$Command += "python3 machine/ubuntu/bootstrap.py"
 Send-CommandOverSSHWithPTY $SSHUser $VMAddress $Command
