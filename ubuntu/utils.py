@@ -11,6 +11,14 @@ def change_hostname(new_hostname: str):
     run(f"sudo sed -i 's/{old_hostname}/{new_hostname}/g' /etc/hostname")
 
 
+def get_ascii_input(message: str) -> str:
+    while True:
+        try:
+            return input(message).encode("ascii").decode()
+        except (UnicodeEncodeError, UnicodeDecodeError):
+            print("Use only english keyboard layout (ascii characters).")
+
+
 def is_answer_positive(answer: str) -> bool:
     return answer.lower() in ["y", "yes", "yeah", "yep"]
 
