@@ -25,9 +25,9 @@ utils.show_progress(title, utils.popen("sudo apt-get upgrade -y"), total_lines)
 
 # ------------------------------------------------------------------------------------ #
 
-answer = input("Do you want to change the hostname? [y/N]: ")
+answer = utils.get_ascii_input("Do you want to change the hostname? [y/N]: ")
 if utils.is_answer_positive(answer):
-    new_hostname = input("Enter your new hostname: ")
+    new_hostname = utils.get_ascii_input("Enter your new hostname: ")
     print("Changing hostname...", end="")
     utils.change_hostname(new_hostname)
     print(" Done.")
@@ -80,7 +80,7 @@ print(" Done.")
 
 # ------------------------------------------------------------------------------------ #
 
-answer = input("Do you want to reboot the machine right now? [y/N]: ")
+answer = utils.get_ascii_input("Do you want to reboot the machine right now? [y/N]: ")
 if utils.is_answer_positive(answer):
     try:
         print("\nThe reboot will be initiated in 5 seconds.")
