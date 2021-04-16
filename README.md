@@ -58,15 +58,14 @@ After rebooting, you'll be prompted to remove the installation media. Just hit `
 
 ## Step 3: Provision Ubuntu Server
 
-Use the `provision.ps1` script in this step. It will check if the machine is available, is running (if not, the script will try to start it), and if it is accessible over the network. Then connect to it, clone the repository, and run the `bootstrap.sh` script.
+Use the `provision.ps1` script in this step. It will check if the machine is available, is running (if not, the script will try to start it), and if it is accessible over the network. Then connect to it, clone the repository, and run the `bootstrap.py` script.
 
-The `bootstrap.sh` script will do the following:
+The `bootstrap.py` script will do the following:
 
 - update packages list and packages themselves;
-- change the time zone to Moscow;
 - provide an opportunity to change the hostname;
-- install dotfiles (you may want to make some adjustments, especially to `.gitconfig`);
-- install python, pip, virtualenv and black;
+- install dotfiles (you may want to make some adjustments afterwards, especially to `.gitconfig`);
+- install pip, virtualenv and black;
 - add some folders and clean up after provisioning.
 
 You'll see a similar output:
