@@ -183,7 +183,7 @@ New-NetNat @NewNatParams | Out-Null
 Write-Host " Done." @Green
 
 Write-Host
-Write-Host "    Write Down The Following Values    " @Warning
+Write-Host "     Write Down The Following Info     " @Warning
 $NumberOfDashes = 39
 Write-Host $("-" * $NumberOfDashes) @Warning
 $VMAddress = Add-IntToIPAddress -IPAddress $VNicAddress -Number 1
@@ -192,7 +192,7 @@ $NetworkInfo = [Ordered]@{
     "Address"        = $VMAddress
     "Gateway"        = $VNicAddress
     "Name servers"   = "1.1.1.1, 8.8.8.8"
-    "Search domains" = ""
+    "Search domains" = "(leave empty)"
 }
 $NetworkInfo.Keys | ForEach-Object { "{0, 15} ..... {1}" -F ($_, $NetworkInfo.$_) }
 Write-Host $("-" * $NumberOfDashes) @Warning
