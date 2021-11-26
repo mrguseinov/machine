@@ -10,6 +10,21 @@ alias lsl='ls -la'
 # with their sizes, sorted by size in ascending order.
 alias lss='du -bahd1 | sort -rh'
 
+# Show disk usage with total.
+alias lsd='df -h --total'
+
 # Find a command in terminal history.
-# Usage: hg <command>
+# Usage 1: hg <command>
+# Usage 2: hg '<regex>'
 alias hg='history | grep'
+
+# Git.
+alias gs='git status'
+alias gfp='git fetch -p'
+alias glo='git log --oneline'
+
+# Jupyter Lab.
+alias jl='jupyter lab'
+
+# Bpython.
+alias bp='bpython'
