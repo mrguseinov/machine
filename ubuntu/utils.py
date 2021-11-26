@@ -54,7 +54,7 @@ def show_progress(title: str, process: subprocess.Popen[str], total_lines: int) 
 
     if total_lines > 0 and process.stdout:
         for line_number, _ in enumerate(process.stdout):
-            percent = min(int(line_number / total_lines * 100), 100)
+            percent = min(int(line_number / total_lines * 100), 99)
             print(f"{title} {percent}%", end="")
 
     if process.wait():

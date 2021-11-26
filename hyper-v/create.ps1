@@ -133,7 +133,7 @@ Set-Location $VmPath
 Write-Host " Done." @Green
 
 Write-Host "Downloading installation media (iso file)..." -NoNewline
-$IsoUrl = "https://releases.ubuntu.com/20.04.2/ubuntu-20.04.2-live-server-amd64.iso"
+$IsoUrl = "https://releases.ubuntu.com/20.04.3/ubuntu-20.04.3-live-server-amd64.iso"
 $IsoFileName = $IsoUrl.Split("/")[-1]
 $BitsTransferParams = @{
     Source      = $IsoUrl
@@ -146,7 +146,7 @@ Write-Host " Done." @Green
 
 Write-Host "Checking '$IsoFileName' hash..." -NoNewline
 $ActualHash = (Get-FileHash $IsoFileName -Algorithm "SHA256").Hash
-$ExpectedHash = "D1F2BF834BBE9BB43FAF16F9BE992A6F3935E65BE0EDECE1DEE2AA6EB1767423"
+$ExpectedHash = "F8E3086F3CEA0FB3FEFB29937AB5ED9D19E767079633960CCB50E76153EFFC98"
 If ($ActualHash -Ne $ExpectedHash) {
     Write-Host
     Write-Host "Something went wrong. Hashes do not match!" @Warning
@@ -183,7 +183,7 @@ New-NetNat @NewNatParams | Out-Null
 Write-Host " Done." @Green
 
 Write-Host
-Write-Host "    Write Down The Following Values    " @Warning
+Write-Host "     Write Down The Following Info     " @Warning
 $NumberOfDashes = 39
 Write-Host $("-" * $NumberOfDashes) @Warning
 $VMAddress = Add-IntToIPAddress -IPAddress $VNicAddress -Number 1
@@ -192,7 +192,7 @@ $NetworkInfo = [Ordered]@{
     "Address"        = $VMAddress
     "Gateway"        = $VNicAddress
     "Name servers"   = "1.1.1.1, 8.8.8.8"
-    "Search domains" = ""
+    "Search domains" = "(leave empty)"
 }
 $NetworkInfo.Keys | ForEach-Object { "{0, 15} ..... {1}" -F ($_, $NetworkInfo.$_) }
 Write-Host $("-" * $NumberOfDashes) @Warning
