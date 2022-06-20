@@ -5,3 +5,11 @@
 
 [commit]
     gpgsign = true
+
+# https://stackoverflow.com/q/18308535
+[fetch]
+    prune = true
+
+# https://superuser.com/a/1572156
+[init]
+    defaultBranch = main
