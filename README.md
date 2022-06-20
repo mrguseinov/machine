@@ -38,10 +38,11 @@ To run a script, right-click it and select `Run with PowerShell`.
 The installation process [can also be automated](https://askubuntu.com/q/1293460), but I'll put this idea on ice until better times :)
 
 ```
-     Grub menu  →  Install Ubuntu Server. (This might take a few minutes.)
+     Grub menu  →  Try or Install Ubuntu Server. (This might take a few minutes.)
       Language  →  English.
       Keyboard  →  Layout: 'Russian'. Variant: 'Russian'.
  Layout toggle  →  Alt+Shift.
+Type of install →  Ubuntu Server.
        Network  →  Select an adapter (for example, 'eth0'), then 'Edit IPv4',
                    then 'IPv4 Method: Manual', then fill out the fields using
                    the output from the Step 1.
