@@ -66,6 +66,7 @@ The `bootstrap.py` script will do the following:
 
 - update packages list and packages themselves;
 - provide an opportunity to change the hostname;
+- provide an opportunity to change the time zone;
 - install [dotfiles](https://github.com/mrguseinov/machine/tree/main/ubuntu/dotfiles) and SSH [config](https://github.com/mrguseinov/machine/tree/main/ubuntu/ssh) (be sure to review those files, especially `.gitconfig` and `config`);
 - install [pip](https://github.com/pypa/pip), [virtualenv](https://github.com/pypa/virtualenv) and [black](https://github.com/psf/black);
 - create some folders and clean up after provisioning.
