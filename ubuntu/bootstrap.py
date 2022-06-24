@@ -35,6 +35,28 @@ if utils.is_answer_positive(answer):
 
 # ------------------------------------------------------------------------------------ #
 
+answer = utils.get_ascii_input("Do you want to change the time zone? [y/N]: ")
+if utils.is_answer_positive(answer):
+    print("Trying to detect your time zone...", end="")
+    timezone = utils.detect_timezone()
+    if timezone is None:
+        print(" Failed.")
+        timezone = utils.read_timezone_from_console()
+    else:
+        print(" Done.")
+        answer = utils.get_ascii_input(f"Is your time zone '{timezone}'? [y/N]: ")
+        if not utils.is_answer_positive(answer):
+            timezone = utils.read_timezone_from_console()
+
+    print("Changing the time zone...", end="")
+    if timezone is None:
+        print(" Failed.")
+    else:
+        utils.set_timezone(timezone)
+        print(" Done.")
+
+# ------------------------------------------------------------------------------------ #
+
 print("Installing dotfiles and SSH config in home directory...", end="")
 shutil.copytree("machine/ubuntu/dotfiles", Path.home(), dirs_exist_ok=True)
 shutil.copytree("machine/ubuntu/ssh", f"{Path.home()}/.ssh", dirs_exist_ok=True)
