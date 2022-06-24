@@ -86,8 +86,8 @@ print("Adding 'projects' and 'sandbox' folders...", end="")
 utils.run("mkdir projects")
 utils.run("mkdir sandbox")
 utils.run("touch sandbox/app.py")
-utils.run(f"{Path.home()}/.local/bin/virtualenv sandbox/venv")
-utils.run("sandbox/venv/bin/python -m pip install black")
+utils.run(f"{Path.home()}/.local/bin/virtualenv sandbox/.venv")
+utils.run("sandbox/.venv/bin/python -m pip install black")
 print(" Done.")
 
 # ------------------------------------------------------------------------------------ #
