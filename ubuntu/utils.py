@@ -3,6 +3,9 @@ from __future__ import annotations
 import shlex
 import subprocess
 import sys
+from pathlib import Path
+
+import requests
 
 
 def change_hostname(new_hostname: str):
@@ -11,12 +14,23 @@ def change_hostname(new_hostname: str):
     run(f"sudo sed -i 's/{old_hostname}/{new_hostname}/g' /etc/hostname")
 
 
+def detect_timezone() -> str | None:
+    try:
+        return requests.get("https://ipinfo.io/json").json()["timezone"]
+    except Exception:
+        return None
+
+
 def get_ascii_input(message: str) -> str:
     while True:
         try:
             return input(message).encode("ascii").decode()
         except (UnicodeEncodeError, UnicodeDecodeError):
             print("Use only english keyboard layout (ascii characters).")
+
+
+def get_current_timezone() -> str:
+    return run("cat /etc/timezone").stdout.strip()
 
 
 def is_answer_positive(answer: str) -> bool:
@@ -34,6 +48,18 @@ def popen(command: str) -> subprocess.Popen[str]:
     )
 
 
+def read_timezone_from_console() -> str | None:
+    print("Open the following url and choose the time zone:")
+    print("https://github.com/mrguseinov/machine/blob/main/ubuntu/timezones.txt")
+    timezone = get_ascii_input("Enter the chosen time zone: ").strip().lower()
+    with Path(__file__).resolve().parent.joinpath("timezones.txt").open() as file:
+        for line in file:
+            line = line.strip()
+            if timezone == line.lower():
+                return line
+        return None
+
+
 def run(command: str, shell: bool = False) -> subprocess.CompletedProcess[str]:
     """Run `command` and wait for it to complete."""
     sys.stdout.flush()
@@ -45,6 +71,10 @@ def run(command: str, shell: bool = False) -> subprocess.CompletedProcess[str]:
         check=True,
         text=True,
     )
+
+
+def set_timezone(timezone) -> None:
+    run(f"sudo timedatectl set-timezone {timezone}")
 
 
 def show_progress(title: str, process: subprocess.Popen[str], total_lines: int) -> None:
