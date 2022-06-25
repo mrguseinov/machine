@@ -60,20 +60,15 @@ After rebooting, you'll be prompted to remove the installation media. Just hit `
 
 ## Step 3: Provision Ubuntu Server
 
-Use the `provision.ps1` script in this step. It will check if the machine is available, is running (if not, the script will try to start it), and if it is accessible over the network. Then connect to it, clone the repository, and run the `bootstrap.py` script.
+Use the `provision.ps1` script in this step. It will check if the machine is available, running (if not, the script will try to start it), and accessible over the network. Then connect to it, clone the repository, and run the `bootstrap.py` script.
 
 The `bootstrap.py` script will do the following:
 
 - update packages list and packages themselves;
-- provide an opportunity to change the hostname;
-- provide an opportunity to change the time zone;
-- install [dotfiles](https://github.com/mrguseinov/machine/tree/main/ubuntu/dotfiles) and SSH [config](https://github.com/mrguseinov/machine/tree/main/ubuntu/ssh) (be sure to review those files, especially `.gitconfig` and `config`);
 - install [pip](https://github.com/pypa/pip), [virtualenv](https://github.com/pypa/virtualenv) and [black](https://github.com/psf/black);
-- create some folders and clean up after provisioning.
-
-You should see a similar output:
-
-![images/step-3.png](images/step-3.png)
+- [detect](https://ipinfo.io/json) and change the time zone;
+- install [dotfiles](https://github.com/mrguseinov/machine/tree/main/ubuntu/dotfiles) and SSH [config](https://github.com/mrguseinov/machine/tree/main/ubuntu/ssh) (be sure to review those files, especially `.gitconfig` and `config`);
+- create some folders, set some permissions and remove unused dependencies.
 
 ---
 
