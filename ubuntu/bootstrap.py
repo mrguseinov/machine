@@ -27,10 +27,9 @@ utils.run_command("cp -r machine/ubuntu/ssh/. ~/.ssh/", shell=True)
 utils.run_command("cat .bashrc_partial >> .bashrc && rm .bashrc_partial", shell=True)
 print("Done.")
 
-utils.print_title("adding 'projects' and 'sandbox' folders")
-utils.run_command("mkdir projects")
-utils.run_command("mkdir sandbox")
-utils.run_command("touch sandbox/app.py")
+utils.print_title("creating 'sandbox' folder inside 'projects'")
+utils.run_command("mkdir -p projects/sandbox")
+utils.run_command("touch projects/sandbox/app.py")
 print("Done.")
 
 utils.print_title("performing the final steps")
