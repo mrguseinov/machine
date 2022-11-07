@@ -1,5 +1,6 @@
 # Python and pip.
-alias python='python3.10'
+alias python='python3'
+alias pytohn='python3'
 alias pip='pip3'
 
 # Print all files and folders in the current directory
@@ -37,8 +38,8 @@ alias vr='virtualenv .venv && source .venv/bin/activate && pip install -r requir
 
 # Find files and directories.
 # https://stackoverflow.com/a/59519116
-alias ff='sudo find / -ignore_readdir_race -type f -name'
-alias fd='sudo find / -ignore_readdir_race -type d -name'
+alias ff='sudo find / -ignore_readdir_race -type f,s -iname'
+alias fd='sudo find / -ignore_readdir_race -type d -iname'
 
 # Create and extract archives.
 alias tc='tar cvzf'
@@ -55,8 +56,8 @@ alias dl='sudo systemctl daemon-reload'
 # Journalctl.
 alias logsl='sudo journalctl --no-hostname --lines 50 --unit'  # Recent logs.
 alias logsf='sudo journalctl --no-hostname --follow --unit'  # Tail (live) logs.
-alias logsla='sudo journalctl --no-hostname -u redis -u nginx -u assistant --lines'
-alias logsfa='sudo journalctl --no-hostname -u redis -u nginx -u assistant --follow'
+alias logsla='sudo journalctl --no-hostname -u mongod -u nginx -u assistant --lines'
+alias logsfa='sudo journalctl --no-hostname -u mongod -u nginx -u assistant --follow'
 
 # Search processes.
 format='-eo pid,user,group,%cpu,%mem,start,command'

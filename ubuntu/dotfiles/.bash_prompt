@@ -77,7 +77,7 @@ PS1+="\[${host_style}\]\h";
 # in
 PS1+="\[${white}\] in ";
 # {working directory}
-PS1+="\[${green}\]\W";
+PS1+="\[${green}\]\w";
 # {git details}
 PS1+="\$(prompt_git \"\[${white}\] on \[${blue}\]\" \"\[${blue}\]\")";
 # new line
