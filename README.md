@@ -14,7 +14,7 @@ The `create.ps1` script will do the following:
 - generate random names for your new virtual machine, virtual switch and NAT;
 - find an available subnet in the `192.168.0.0–192.168.255.0` range;
 - ask if you want to continue or abort (nothing has been changed or created so far);
-- download the Ubuntu Server 22.04.1 installation media and check its hash;
+- download the Ubuntu Server 22.04.2 installation media and check its hash;
 - configure a network with a static IP address and internet access (internal virtual switch, virtual network adapter, network address translation);
 - create and configure the virtual machine;
 - add a virtual DVD drive and set the machine to boot from it;
