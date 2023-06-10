@@ -219,3 +219,17 @@ Else {
     Write-Host " Skip." @Green
     Write-Host "The folder was not found." @Warning
 }
+
+Write-Host "Deleting the forwarded ports..." -NoNewline
+$Ports = Get-ForwardedPorts $VMAddress
+If ($Ports.Length -Gt 0) {
+    Write-Host " [$($Ports -Join ', ')]" -NoNewline
+    Foreach ($Port in $Ports) {
+        Remove-PortForwardingRule $Port
+    }
+    Write-Host " Done." @Green
+}
+Else {
+    Write-Host " Skip." @Green
+    Write-Host "The ports were not found." @Warning
+}

@@ -29,6 +29,14 @@ Function Convert-CidrToMask($PrefixLength) {
     Return Get-IPOctetsReversed $IPAddress.ToString()
 }
 
+Function Get-ForwardedPorts($IPAddress) {
+    # https://stackoverflow.com/q/18476634
+    # https://stackoverflow.com/q/70863810
+    Test-ValueIsIPv4 $IPAddress
+    $FilteredRules = netsh interface portproxy show all | Select-String $IPAddress
+    Return , @($FilteredRules | ForEach-Object { [Int](($_ -Split "\s+")[3]) })
+}
+
 Function Get-IPOctetsReversed($IPAddress) {
     Test-ValueIsIPv4 $IPAddress
     Return $IPAddress.Split(".")[4..0] -Join "."
@@ -56,6 +64,13 @@ Function Get-Subnet($IPAddress, $PrefixLength) {
     $IPAddress = ([IPAddress]$IPAddress).Address
     $Mask = ([IPAddress](Convert-CidrToMask $PrefixLength)).Address
     Return ([IPAddress]($IPAddress -BAnd $Mask)).ToString()
+}
+
+Function Remove-PortForwardingRule($Port) {
+    Test-ValueIsNetworkPort $Port
+    $Parameters = "listenaddress=0.0.0.0 " +
+                  "listenport=$Port"
+    Invoke-Expression "netsh interface portproxy delete v4tov4 $Parameters" | Out-Null
 }
 
 Function Test-IPAddressInRange($IPAddress, $IPFrom, $IPTo) {
