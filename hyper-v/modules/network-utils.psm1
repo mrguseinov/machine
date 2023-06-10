@@ -4,6 +4,16 @@ $ErrorActionPreference = "Stop"
 
 Import-Module "$PSScriptRoot\value-testers.psm1" -Force
 
+Function Add-PortForwardingRule($IPAddress, $Port) {
+    Test-ValueIsIPv4 $IPAddress
+    Test-ValueIsNetworkPort $Port
+    $Parameters = "listenaddress=0.0.0.0 " +
+                  "listenport=$Port " +
+                  "connectaddress=$IPAddress " +
+                  "connectport=$Port"
+    Invoke-Expression "netsh interface portproxy add v4tov4 $Parameters" | Out-Null
+}
+
 Function Add-IntToIPAddress($IPAddress, $Number) {
     Test-ValueIsIPv4 $IPAddress
     Test-ValueIsInteger $Number

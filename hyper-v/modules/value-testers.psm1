@@ -51,7 +51,7 @@ Function Test-ValueIsInteger($Value) {
 
 Function Test-ValueIsIPv4($IPAddress) {
     Test-ValueIsString $IPAddress
-    
+
     $Byte = "(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])" # 0 to 255
     $IPv4Regex = "^$Byte\.$Byte\.$Byte\.$Byte$"
     If ($IPAddress -NotMatch $IPv4Regex) {
@@ -60,9 +60,16 @@ Function Test-ValueIsIPv4($IPAddress) {
 }
 
 Function Test-ValueIsPath($Path) {
-    Test-ValueIsString $Path    
+    Test-ValueIsString $Path
     If (!(Test-Path $Path -IsValid)) {
         Throw "The value '$Path' is not a valid path."
+    }
+}
+
+Function Test-ValueIsNetworkPort($Port) {
+    Test-ValueIsInteger $Port
+    If ($Port -Lt 0 -Or $Port -Gt 65535) {
+        Throw "The value '$Port' is not a valid port."
     }
 }
 
