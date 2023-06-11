@@ -242,6 +242,7 @@ Write-Host " Done." @Green
 $ScriptsPath = "$VmPath\Scripts"
 Write-Host "Copying the scripts to '$ScriptsPath'..." -NoNewline
 New-Item -ItemType "Directory" -Path $ScriptsPath | Out-Null
+Copy-Item -Path "$PSScriptRoot\firewall.ps1" -Destination $ScriptsPath
 Copy-Item -Path "$PSScriptRoot\ports.ps1" -Destination $ScriptsPath
 Copy-Item -Path "$PSScriptRoot\provision.ps1" -Destination $ScriptsPath
 Copy-Item -Path "$PSScriptRoot\ssh.ps1" -Destination $ScriptsPath
