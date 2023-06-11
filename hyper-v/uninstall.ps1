@@ -1,6 +1,7 @@
 $ErrorActionPreference = "Stop"
 
 Import-Module "$PSScriptRoot\modules\common-utils.psm1" -Force
+Import-Module "$PSScriptRoot\modules\network-utils.psm1" -Force
 
 Restart-ScriptAsAdminNoExitOnce $PSCommandPath
 
