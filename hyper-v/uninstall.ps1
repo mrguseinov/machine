@@ -224,7 +224,7 @@ Write-Host "Deleting the forwarded ports..." -NoNewline
 $Ports = Get-ForwardedPorts $VMAddress
 If ($Ports.Length -Gt 0) {
     Write-Host " [$($Ports -Join ', ')]" -NoNewline
-    Foreach ($Port in $Ports) {
+    ForEach ($Port in $Ports) {
         Remove-PortForwardingRule $Port
     }
     Write-Host " Done." @Green

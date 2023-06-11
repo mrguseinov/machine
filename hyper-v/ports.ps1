@@ -20,7 +20,7 @@ Write-Host
 $Input = Read-Host "Enter ports to forward (space separated)"
 $Ports = $Input -Split "\D+"  | Where-Object {$_ -Ne ""} | ForEach-Object { [Int]$_ }
 Write-Host "Forwarding ports: $($Ports -Join ', ')..." -NoNewline
-Foreach ($Port in $Ports) {
+ForEach ($Port in $Ports) {
     Add-PortForwardingRule $VMAddress $Port
 }
 Write-Host " Done." @Green
