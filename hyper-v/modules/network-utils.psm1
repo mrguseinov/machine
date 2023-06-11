@@ -4,6 +4,19 @@ $ErrorActionPreference = "Stop"
 
 Import-Module "$PSScriptRoot\value-testers.psm1" -Force
 
+Function Add-PortsFirewallRule($Name, $Ports) {
+    Test-ValueIsString $Name
+    Test-ValueIsArray $Ports
+    ForEach ($Port in $Ports) {
+        Test-ValueIsNetworkPort $Port
+    }
+    $Parameters = "-DisplayName '$Name' " +
+                  "-LocalPort $($Ports -Join ', ') " +
+                  "-Action Allow " +
+                  "-Protocol TCP"
+    Invoke-Expression "New-NetFireWallRule $Parameters -Direction Inbound" | Out-Null
+}
+
 Function Add-PortForwardingRule($IPAddress, $Port) {
     Test-ValueIsIPv4 $IPAddress
     Test-ValueIsNetworkPort $Port
@@ -66,6 +79,13 @@ Function Get-Subnet($IPAddress, $PrefixLength) {
     Return ([IPAddress]($IPAddress -BAnd $Mask)).ToString()
 }
 
+Function Remove-FirewallRule($Name) {
+    Test-ValueIsString $Name
+    $Parameters = "-DisplayName '$Name' " +
+                  "-ErrorAction Ignore"
+    Invoke-Expression "Remove-NetFireWallRule $Parameters"
+}
+
 Function Remove-PortForwardingRule($Port) {
     Test-ValueIsNetworkPort $Port
     $Parameters = "listenaddress=0.0.0.0 " +
@@ -81,4 +101,10 @@ Function Test-IPAddressInRange($IPAddress, $IPFrom, $IPTo) {
     $IPTo = ([IPAddress](Get-IPOctetsReversed $IPTo)).Address
 
     Return ($IPFrom -Le $IPAddress) -And ($IPAddress -Le $IPTo)
+}
+
+Function Test-FirewallRuleExists($Name) {
+    Test-ValueIsString $Name
+    $Rule = Get-NetFirewallRule -DisplayName $Name -ErrorAction "SilentlyContinue"
+    Return $Rule -Ne $Null
 }

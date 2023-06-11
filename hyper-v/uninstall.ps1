@@ -233,3 +233,13 @@ Else {
     Write-Host " Skip." @Green
     Write-Host "The ports were not found." @Warning
 }
+
+Write-Host "Deleting the firewall rule '$VMName'..." -NoNewline
+If (Test-FirewallRuleExists $VMName) {
+    Remove-FirewallRule $VMName
+    Write-Host " Done." @Green
+}
+Else {
+    Write-Host " Skip." @Green
+    Write-Host "The rule was not found." @Warning
+}
