@@ -54,6 +54,12 @@ Function Get-NumberOfLogicalProcessors {
     Return (Get-CimInstance "Win32_ComputerSystem").NumberOfLogicalProcessors
 }
 
+Function Get-IntegersFromString($String) {
+    Test-ValueIsString $String
+    $Numbers = $String -Split "\D+"  | Where-Object {$_ -Ne ""}
+    Return , @($Numbers | ForEach-Object { [Int]$_ })
+}
+
 Function Get-RandomInteger($Start, $End) {
     @($Start, $End) | ForEach-Object { Test-ValueIsInteger $_ }
     Return $Start..$End | Get-Random

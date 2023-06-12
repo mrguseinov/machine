@@ -18,16 +18,16 @@ The `create.ps1` script will do the following:
 - configure a network with a static IP address and internet access (internal virtual switch, virtual network adapter, network address translation);
 - create and configure the virtual machine;
 - add a virtual DVD drive and set the machine to boot from it;
-- copy the `ssh.ps1`, `provision.ps1` and `uninstall.ps1` scripts to the `Scripts` folder (see below);
+- copy some scripts to the `Scripts` folder (see below);
 - ask if you want to start the virtual machine and connect to it.
 
 If you've met all the requirements, you should see a similar output:
 
-![images/step-1-1.png](images/step-1-1.png)
+![images/create.png](images/create.png)
 
-The `$HOME/Ubuntu-XXXXX/Scripts` folder contains three scripts. You can use them in the next steps.
+The `$HOME/Ubuntu-XXXXX/Scripts` folder contains a number of scripts. You can use them in the next steps.
 
-![images/step-1-2.png](images/step-1-2.png)
+![images/scripts.png](images/scripts.png)
 
 To run a script, right-click it and select `Run with PowerShell`.
 
@@ -76,11 +76,27 @@ The `bootstrap.py` script will do the following:
 
 Use the `ssh.ps1` script in this step. You should see a similar output:
 
-![images/step-4-1.png](images/step-4-1.png)
+![images/ssh.png](images/ssh.png)
 
 Now you should be able to connect to the server without passwords and also from the [VS Code](https://code.visualstudio.com/docs/remote/ssh).
 
-![images/step-4-2.png](images/step-4-2.png)
+![images/vscode.png](images/vscode.png)
+
+---
+
+## Step 5: Forward Ports
+
+Use the `ports.ps1` script to forward ports from Windows to Ubuntu. You should see a similar output:
+
+![images/ports.png](images/ports.png)
+
+---
+
+## Step 6: Configure Firewall
+
+Use the `firewall.ps1` script to set up the Windows Firewall. You should see a similar output:
+
+![images/firewall.png](images/firewall.png)
 
 ---
 

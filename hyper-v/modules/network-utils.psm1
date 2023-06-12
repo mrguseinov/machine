@@ -4,6 +4,29 @@ $ErrorActionPreference = "Stop"
 
 Import-Module "$PSScriptRoot\value-testers.psm1" -Force
 
+Function Add-PortsFirewallRule($Name, $Ports) {
+    Test-ValueIsString $Name
+    Test-ValueIsArray $Ports
+    ForEach ($Port in $Ports) {
+        Test-ValueIsNetworkPort $Port
+    }
+    $Parameters = "-DisplayName '$Name' " +
+                  "-LocalPort $($Ports -Join ', ') " +
+                  "-Action Allow " +
+                  "-Protocol TCP"
+    Invoke-Expression "New-NetFireWallRule $Parameters -Direction Inbound" | Out-Null
+}
+
+Function Add-PortForwardingRule($IPAddress, $Port) {
+    Test-ValueIsIPv4 $IPAddress
+    Test-ValueIsNetworkPort $Port
+    $Parameters = "listenaddress=0.0.0.0 " +
+                  "listenport=$Port " +
+                  "connectaddress=$IPAddress " +
+                  "connectport=$Port"
+    Invoke-Expression "netsh interface portproxy add v4tov4 $Parameters" | Out-Null
+}
+
 Function Add-IntToIPAddress($IPAddress, $Number) {
     Test-ValueIsIPv4 $IPAddress
     Test-ValueIsInteger $Number
@@ -17,6 +40,14 @@ Function Convert-CidrToMask($PrefixLength) {
     Test-ValueIsCidr $PrefixLength
     $IPAddress = [IPAddress]([UInt32]::MaxValue -shl (32 - $PrefixLength))
     Return Get-IPOctetsReversed $IPAddress.ToString()
+}
+
+Function Get-ForwardedPorts($IPAddress) {
+    # https://stackoverflow.com/q/18476634
+    # https://stackoverflow.com/q/70863810
+    Test-ValueIsIPv4 $IPAddress
+    $FilteredRules = netsh interface portproxy show all | Select-String $IPAddress
+    Return , @($FilteredRules | ForEach-Object { [Int](($_ -Split "\s+")[3]) })
 }
 
 Function Get-IPOctetsReversed($IPAddress) {
@@ -48,6 +79,18 @@ Function Get-Subnet($IPAddress, $PrefixLength) {
     Return ([IPAddress]($IPAddress -BAnd $Mask)).ToString()
 }
 
+Function Remove-FirewallRule($Name) {
+    Test-ValueIsString $Name
+    Remove-NetFireWallRule -DisplayName $Name -ErrorAction "SilentlyContinue"
+}
+
+Function Remove-PortForwardingRule($Port) {
+    Test-ValueIsNetworkPort $Port
+    $Parameters = "listenaddress=0.0.0.0 " +
+                  "listenport=$Port"
+    Invoke-Expression "netsh interface portproxy delete v4tov4 $Parameters" | Out-Null
+}
+
 Function Test-IPAddressInRange($IPAddress, $IPFrom, $IPTo) {
     @($IPAddress, $IPFrom, $IPTo) | ForEach-Object { Test-ValueIsIPv4 $_ }
 
@@ -56,4 +99,10 @@ Function Test-IPAddressInRange($IPAddress, $IPFrom, $IPTo) {
     $IPTo = ([IPAddress](Get-IPOctetsReversed $IPTo)).Address
 
     Return ($IPFrom -Le $IPAddress) -And ($IPAddress -Le $IPTo)
+}
+
+Function Test-FirewallRuleExists($Name) {
+    Test-ValueIsString $Name
+    $Rule = Get-NetFirewallRule -DisplayName $Name -ErrorAction "SilentlyContinue"
+    Return $Rule -Ne $Null
 }

@@ -1,6 +1,7 @@
 $ErrorActionPreference = "Stop"
 
 Import-Module "$PSScriptRoot\modules\common-utils.psm1" -Force
+Import-Module "$PSScriptRoot\modules\network-utils.psm1" -Force
 
 Restart-ScriptAsAdminNoExitOnce $PSCommandPath
 
@@ -218,4 +219,28 @@ If (Test-Path $SSHFolderPath -PathType "Container") {
 Else {
     Write-Host " Skip." @Green
     Write-Host "The folder was not found." @Warning
+}
+
+Write-Host "Deleting the forwarded ports..." -NoNewline
+$Ports = Get-ForwardedPorts $VMAddress
+If ($Ports.Length -Gt 0) {
+    Write-Host " [$($Ports -Join ', ')]" -NoNewline
+    ForEach ($Port in $Ports) {
+        Remove-PortForwardingRule $Port
+    }
+    Write-Host " Done." @Green
+}
+Else {
+    Write-Host " Skip." @Green
+    Write-Host "The ports were not found." @Warning
+}
+
+Write-Host "Deleting the firewall rule '$VMName'..." -NoNewline
+If (Test-FirewallRuleExists $VMName) {
+    Remove-FirewallRule $VMName
+    Write-Host " Done." @Green
+}
+Else {
+    Write-Host " Skip." @Green
+    Write-Host "The rule was not found." @Warning
 }

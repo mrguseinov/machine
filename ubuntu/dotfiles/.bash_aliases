@@ -27,6 +27,8 @@ alias gs='git status -u'
 alias gf='git fetch -p'
 alias gl='git log --oneline'
 alias gb='git branch -va'
+alias gc='git commit -m'
+alias gp='git push'
 
 # Jupyter Lab.
 alias jl='jupyter lab'
@@ -58,10 +60,15 @@ alias logsl='sudo journalctl --no-hostname --lines 50 --unit'  # Recent logs.
 alias logsf='sudo journalctl --no-hostname --follow --unit'  # Tail (live) logs.
 alias logsla='sudo journalctl --no-hostname -u mongod -u nginx -u assistant --lines'
 alias logsfa='sudo journalctl --no-hostname -u mongod -u nginx -u assistant --follow'
+alias loa="sudo echo; logsfa > out.log &"
 
 # Search processes.
 format='-eo pid,user,group,%cpu,%mem,start,command'
 alias psg="ps $format | head -1; ps $format | grep"
+
+# MongoDB.
+alias mongo='sudo mongosh mongodb://%2Frun%2Fmongodb%2Fmongodb-27017.sock'
+alias mongoa='sudo mongosh mongodb://%2Frun%2Fmongodb%2Fmongodb-27017.sock/assistant'
 
 ######################################################################################
 #                     https://github.com/cykerway/complete-alias                     #
