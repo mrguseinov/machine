@@ -81,9 +81,7 @@ Function Get-Subnet($IPAddress, $PrefixLength) {
 
 Function Remove-FirewallRule($Name) {
     Test-ValueIsString $Name
-    $Parameters = "-DisplayName '$Name' " +
-                  "-ErrorAction Ignore"
-    Invoke-Expression "Remove-NetFireWallRule $Parameters"
+    Remove-NetFireWallRule -DisplayName $Name -ErrorAction "SilentlyContinue"
 }
 
 Function Remove-PortForwardingRule($Port) {
