@@ -133,7 +133,7 @@ Set-Location $VmPath
 Write-Host " Done." @Green
 
 Write-Host "Downloading installation media (iso file)..." -NoNewline
-$IsoUrl = "https://releases.ubuntu.com/22.04.2/ubuntu-22.04.2-live-server-amd64.iso"
+$IsoUrl = "https://releases.ubuntu.com/22.04.3/ubuntu-22.04.3-live-server-amd64.iso"
 $IsoFileName = $IsoUrl.Split("/")[-1]
 $BitsTransferParams = @{
     Source      = $IsoUrl
@@ -146,7 +146,7 @@ Write-Host " Done." @Green
 
 Write-Host "Checking '$IsoFileName' hash..." -NoNewline
 $ActualHash = (Get-FileHash $IsoFileName -Algorithm "SHA256").Hash
-$ExpectedHash = "5e38b55d57d94ff029719342357325ed3bda38fa80054f9330dc789cd2d43931"
+$ExpectedHash = "a4acfda10b18da50e2ec50ccaf860d7f20b389df8765611142305c0e911d16fd"
 If ($ActualHash -Ne $ExpectedHash) {
     Write-Host
     Write-Host "Something went wrong. Hashes do not match!" @Warning
