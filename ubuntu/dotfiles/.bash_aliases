@@ -29,6 +29,8 @@ alias gl='git log --oneline'
 alias gb='git branch -va'
 alias gc='git commit -m'
 alias gp='git push'
+alias gcb='git checkout -b'
+alias gcm='git checkout main'
 
 # Jupyter Lab.
 alias jl='jupyter lab'
