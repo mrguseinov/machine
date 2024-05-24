@@ -4,7 +4,7 @@ utils.print_title("updating packages list", sleep=False)
 utils.run_command("sudo apt update")
 
 utils.print_title("updating packages themselves")
-utils.run_command("sudo apt upgrade -y")
+utils.run_command("sudo NEEDRESTART_MODE=a apt upgrade -y")
 
 utils.print_title("installing pip (python package manager)")
 utils.run_command("sudo apt install python3-pip -y")
