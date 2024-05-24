@@ -2,6 +2,12 @@
 alias python='python3'
 alias pytohn='python3'
 alias pip='pip3'
+alias pfr='pip freeze > requirements.txt'
+alias server='python -m http.server'
+
+alias pythondev='ENV_FILE=.dev.env python3'
+alias pythontest='ENV_FILE=.test.env python3'
+alias pythonprod='ENV_FILE=.prod.env python3'
 
 # Print all files and folders in the current directory
 # with their permissions, owners, and modification dates.
@@ -42,7 +48,7 @@ alias vr='virtualenv .venv && source .venv/bin/activate && pip install -r requir
 
 # Find files and directories.
 # https://stackoverflow.com/a/59519116
-alias ff='sudo find / -ignore_readdir_race -type f,s -iname'
+alias ff='sudo find / -ignore_readdir_race -type f,s,l -iname'
 alias fd='sudo find / -ignore_readdir_race -type d -iname'
 
 # Create and extract archives.
@@ -70,7 +76,8 @@ alias psg="ps $format | head -1; ps $format | grep"
 
 # MongoDB.
 alias mongo='sudo mongosh mongodb://%2Frun%2Fmongodb%2Fmongodb-27017.sock'
-alias mongoa='sudo mongosh mongodb://%2Frun%2Fmongodb%2Fmongodb-27017.sock/assistant'
+alias mongoa='mongosh localhost/assistant -u assistant -p'
+alias mongot='mongosh localhost/test -u test -p'
 
 ######################################################################################
 #                     https://github.com/cykerway/complete-alias                     #
