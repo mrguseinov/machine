@@ -156,7 +156,7 @@ Function Restart-ScriptAsAdminNoExitOnce($ScriptPath) {
 }
 
 Function Select-MaxRamAmount {
-    Return [System.Math]::Min((Get-TotalRamInstalled) / 2, 8GB)
+    Return [System.Math]::Min((Get-TotalRamInstalled) / 2, 4GB)
 }
 
 Function Send-CommandOverSSH($User, $HostName, $Command) {
