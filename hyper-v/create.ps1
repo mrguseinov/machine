@@ -221,6 +221,7 @@ $SetVMParams = @{
     AutomaticStartAction = "StartIfRunning"
     AutomaticStopAction  = "Save"
     AutomaticStartDelay  = 0
+    AutomaticCheckpointsEnabled = $False
 }
 Set-VM @SetVMParams
 Write-Host " Done." @Green
