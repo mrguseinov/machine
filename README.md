@@ -14,7 +14,7 @@ The `create.ps1` script will do the following:
 - generate random names for your new virtual machine, virtual switch and NAT;
 - find an available subnet in the `192.168.0.0–192.168.255.0` range;
 - ask if you want to continue or abort (nothing has been changed or created so far);
-- download the Ubuntu Server 22.04.4 installation media and check its hash;
+- download the Ubuntu Server 24.04.2 installation media and check its hash;
 - configure a network with a static IP address and internet access (internal virtual switch, virtual network adapter, network address translation);
 - create and configure the virtual machine;
 - add a virtual DVD drive and set the machine to boot from it;
@@ -52,6 +52,7 @@ Type of install  →  Ubuntu Server.
                     (Note: The swap file will be created by Ubuntu automatically.)
                     Press 'Done', then 'Done' again, then 'Continue'.
         Profile  →  Fill out everything as you like.
+     Ubuntu Pro  →  Skip for now.
       SSH setup  →  Install OpenSSH server: 'Yes'. Import SSH identity: 'No'.
    Server snaps  →  Skip (press 'Done').
 ```
@@ -65,7 +66,7 @@ Use the `provision.ps1` script in this step. It will check if the machine is ava
 The `bootstrap.py` script will do the following:
 
 - update packages list and packages themselves;
-- install [pip](https://github.com/pypa/pip), [virtualenv](https://github.com/pypa/virtualenv) and [black](https://github.com/psf/black);
+- install [pip](https://github.com/pypa/pip) and [virtualenv](https://github.com/pypa/virtualenv);
 - [detect](https://ipinfo.io/json) and change the time zone;
 - install [dotfiles](https://github.com/mrguseinov/machine/tree/main/ubuntu/dotfiles) and SSH [config](https://github.com/mrguseinov/machine/tree/main/ubuntu/ssh) (be sure to review those files, especially `.gitconfig` and `.ssh/config`);
 - create some folders, set some permissions and remove unused dependencies.
