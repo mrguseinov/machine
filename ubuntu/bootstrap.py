@@ -12,9 +12,6 @@ utils.run_command("sudo apt install python3-pip -y")
 utils.print_title("installing virtualenv (python environments manager)")
 utils.run_command("pip install virtualenv --no-warn-script-location")
 
-utils.print_title("installing black (python formatter)")
-utils.run_command("pip install black --no-warn-script-location")
-
 utils.print_title("changing the time zone", sleep=False)
 timezone = utils.detect_timezone()
 if timezone is not None:
