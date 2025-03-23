@@ -1,13 +1,7 @@
-# Python and pip.
-alias python='python3'
-alias pytohn='python3'
-alias pip='pip3'
-alias pfr='pip freeze > requirements.txt'
+# Python.
+alias python='uv run python'
+alias pytohn='python'
 alias server='python -m http.server'
-
-alias pythondev='ENV_FILE=.dev.env python3'
-alias pythontest='ENV_FILE=.test.env python3'
-alias pythonprod='ENV_FILE=.prod.env python3'
 
 # Print all files and folders in the current directory
 # with their permissions, owners, and modification dates.
@@ -40,11 +34,6 @@ alias gcm='git checkout main'
 
 # Jupyter Lab.
 alias jl='jupyter lab'
-
-# Virtualenv.
-alias va='source .venv/bin/activate'
-alias vb='virtualenv .venv && source .venv/bin/activate && pip install black'
-alias vr='virtualenv .venv && source .venv/bin/activate && pip install -r requirements.txt'
 
 # Find files and directories.
 # https://stackoverflow.com/a/59519116
