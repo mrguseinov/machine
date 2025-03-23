@@ -66,10 +66,11 @@ Use the `provision.ps1` script in this step. It will check if the machine is ava
 The `bootstrap.py` script will do the following:
 
 - update packages list and packages themselves;
-- install [pip](https://github.com/pypa/pip) and [virtualenv](https://github.com/pypa/virtualenv);
+- install [uv](https://docs.astral.sh/uv/) and the latest stable python;
+- install [bat](https://github.com/sharkdp/bat);
 - [detect](https://ipinfo.io/json) and change the time zone;
 - install [dotfiles](https://github.com/mrguseinov/machine/tree/main/ubuntu/dotfiles) and SSH [config](https://github.com/mrguseinov/machine/tree/main/ubuntu/ssh) (be sure to review those files, especially `.gitconfig` and `.ssh/config`);
-- create some folders, set some permissions and remove unused dependencies.
+- set some permissions, remove unused dependencies and reboot the machine.
 
 ---
 
