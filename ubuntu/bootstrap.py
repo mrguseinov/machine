@@ -7,19 +7,21 @@ utils.print_title("updating packages themselves")
 utils.run_command("sudo NEEDRESTART_MODE=a apt upgrade -y")
 
 utils.print_title("installing uv (python package and project manager)")
-utils.run_command("curl -LsSf https://astral.sh/uv/install.sh | sh")
-utils.run_command("source $HOME/.local/bin/env")
-utils.run_command("""echo 'eval "$(uv generate-shell-completion bash)"' >> ~/.bashrc""")
-utils.run_command("""echo 'eval "$(uvx --generate-shell-completion bash)"' >> ~/.bashrc""")
-utils.run_command("source ~/.bashrc")
+commands = [
+    """curl -LsSf https://astral.sh/uv/install.sh | sh""",
+    """echo 'eval "$(uv generate-shell-completion bash)"' >> ~/.bashrc""",
+    """echo 'eval "$(uvx --generate-shell-completion bash)"' >> ~/.bashrc""",
+]
+for command in commands:
+    utils.run_command(command, shell=True)
 
 utils.print_title("installing latest stable python")
-utils.run_command("uv python install")
+utils.run_command("~/.local/bin/uv python install", shell=True)
 
 utils.print_title("installing bat (cat clone with wings)")
 utils.run_command("sudo apt install bat -y")
-utils.run_command("mkdir -p ~/.local/bin")
-utils.run_command("ln -s /usr/bin/batcat ~/.local/bin/bat")
+utils.run_command("mkdir -p ~/.local/bin", shell=True)
+utils.run_command("ln -s /usr/bin/batcat ~/.local/bin/bat", shell=True)
 
 utils.print_title("changing the time zone", sleep=False)
 timezone = utils.detect_timezone()
